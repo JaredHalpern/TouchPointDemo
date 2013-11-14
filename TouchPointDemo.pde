@@ -9,17 +9,23 @@ PVector boxCenter = new PVector(0, 0, 600); // 2
 
 // zooming
 float s = 1;
+int wireOn = 0;
 
 void setup() {
   size(1024, 768, OPENGL);
   kinect = new SimpleOpenNI(this);
   kinect.enableDepth();
+  kinect.enableRGB();
+  kinect.alternativeViewPointDepthToImage();
 }
 
 void draw() {
     
   background(0);
   kinect.update();
+  
+  PImage rgbImage = kinect.rgbImage();
+  
   translate(width/2, height/2, -1000); //3 
   rotateX(radians(180));
   
@@ -54,7 +60,10 @@ for (int i = 0; i < depthPoints.length; i+=10) {
           }
         } 
       }
-
+      
+    if(wireOn == 0){
+      stroke(rgbImage.pixels[i]);
+    }
     point(currentPoint.x, currentPoint.y, currentPoint.z);
 }
 
@@ -89,5 +98,11 @@ if(keyCode == 40){
 }
 
 void mousePressed(){
-      save("touchedPoint.png");
+//      save("touchedPoint.png");
+  wireOn = 1;
 }
+
+void mouseReleased(){
+  wireOn = 0;
+}
+
