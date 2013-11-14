@@ -63,13 +63,14 @@ for (int i = 0; i < depthPoints.length; i+=10) {
   // set the box color's transparency
   // 0 is transparent, 1000 points is fully opaque red
   float boxAlpha = map(depthPointsInBox, 0, 1000, 0, 255); // 3
+  float boxGreen = map(depthPointsInBox, 0, 1000, 0, 255); // RED TO GREEN
   translate(boxCenter.x, boxCenter.y, boxCenter.z);
 
   // the fourth argument to fill() is "alpha"
   // it determines the color's opacity
   // we set it based on the number of points
-  fill(255, 0, 0, boxAlpha);
-  stroke(255, 0, 0);
+  fill(255-boxGreen, boxGreen, 0, boxAlpha);
+  stroke(255-boxGreen, boxGreen, 0);
   box(boxSize);
 }
 
