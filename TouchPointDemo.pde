@@ -1,9 +1,13 @@
 import processing.opengl.*;
 import SimpleOpenNI.*;
+
 SimpleOpenNI kinect;
+
 float rotation = 0;
+
 // set the box size
 int boxSize = 150; //1
+
 // a vector holding the center of the box 
 PVector boxCenter = new PVector(0, 0, 600); // 2
 
@@ -26,15 +30,15 @@ void draw() {
   
   PImage rgbImage = kinect.rgbImage();
   
-  translate(width/2, height/2, -1000); //3 
+  translate(width/2, height/2, -100); //3 
   rotateX(radians(180));
   
   translate(0, 0, 1400);
   rotateY(radians(map(mouseX, 0, width, -180, 180)));
   
-  // zoom in
-  translate(0,0,s*-1000);
-  scale(s);
+  
+  translate(0,0,s*-1000); // reposition origin based on amt we're scaling; based on pixels.
+  scale(s); // zoom in; based on %.
   println(s);
   stroke(255);
   
@@ -46,7 +50,7 @@ void draw() {
 for (int i = 0; i < depthPoints.length; i+=10) {
     PVector currentPoint = depthPoints[i];
     
-  // The nested if statements inside of our loop //2 
+  // The nested if statements inside of our loop
   if (currentPoint.x > boxCenter.x - boxSize/2
           && currentPoint.x < boxCenter.x + boxSize/2)
       {
@@ -71,7 +75,7 @@ for (int i = 0; i < depthPoints.length; i+=10) {
   
   // set the box color's transparency
   // 0 is transparent, 1000 points is fully opaque red
-  float boxAlpha = map(depthPointsInBox, 0, 1000, 0, 255); // 3
+  float boxAlpha = map(depthPointsInBox, 0, 1000, 0, 255);
   float boxGreen = map(depthPointsInBox, 0, 1000, 0, 255); // RED TO GREEN
   translate(boxCenter.x, boxCenter.y, boxCenter.z);
 
